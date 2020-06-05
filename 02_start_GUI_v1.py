@@ -20,11 +20,26 @@ class Start:
                                                                      ", the more you can win!")
         self.mystery_box_instructions.grid(row=1)
 
-        self.start_amount_entry = Entry(self.start_frame, font="Arial 16 bold")
-        self.start_amount_entry.grid(row=2)
+        self.entry_error_frame = Frame(self.start_frame, width=200)
+        self.entry_error_frame.grid(row=2)
+
+        self.start_amount_entry = Entry(self.entry_error_frame,
+                                        font="Arial  19 bold", width=10)
+        self.start_amount_entry.grid(row=0, column=0)
+
+        self.add_funds_button = Button(self.entry_error_frame,
+                                       font="Arial 14 bold",
+                                       text="Add Funds",
+                                       command=self.check_funds)
+        self.add_funds_button.grid(row=0, column=1)
+
+        self.amount_error_label = Label(self.entry_error_frame, fg="maroon",
+                                        text="", font="Arial 10 bold", wrap=275,
+                                        justify=LEFT)
+        self.amount_error_label.grid(row=1, columnspan=2, pady=5)
 
         self.stakes_frame = Frame(self.start_frame)
-        self.stakes_frame.grid(row=3)
+        self.stakes_frame.grid(row=4)
 
         button_font = "Arial 10 bold"
 
@@ -43,9 +58,38 @@ class Start:
                                          command=lambda: self.to_game(3))
         self.high_stakes_button.grid(row=0, column=2, pady=10)
 
+        self.low_stakes_button.config(state=DISABLED)
+        self.medium_stakes_button.config(state=DISABLED)
+        self.high_stakes_button.config(state=DISABLED)
+
         self.help_button = Button(self.start_frame, text="How To Play", font=button_font,
                                   fg="White", bg="Gray")
-        self.help_button.grid(row=4, pady=10)
+        self.help_button.grid(row=5, pady=10)
+
+    def check_funds(self):
+        starting_balance = self.start_amount_entry.get()
+
+        error_back = "#ffafaf"
+        has_errors = "no"
+
+        self.start_amount_entry.config(bg="white")
+        self.amount_error_label.config(text="")
+
+        self.low_stakes_button.config(state=DISABLED)
+        self.medium_stakes_button.config(state=DISABLED)
+        self.high_stakes_button.config(state=DISABLED)
+
+        try:
+            starting_balance = int(starting_balance)
+
+            if starting_balance < 5:
+                has_errors = "yes"
+                error_feedback = "Sorry, the least you can play with is $5"
+            elif starting_balance > 50:
+                has_errors = "yes"
+                error_feedback = ""
+
+
 
     def to_game(self, stakes):
         starting_balance = self.start_amount_entry.get()
