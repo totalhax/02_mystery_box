@@ -27,8 +27,6 @@ class Game:
         print(stakes)
         print(starting_balance)
 
-        partner.lowstakes_button.config(state=DISABLED)
-
         self.balance = IntVar()
 
         self.balance.set(starting_balance)
