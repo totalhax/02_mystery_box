@@ -28,6 +28,7 @@ class Game:
         self.balance.set(starting_balance)
         self.multiplier = IntVar()
         self.multiplier.set(stakes)
+        self.round_stats_list = []
         self.game_box = Toplevel()
         self.game_box.protocol('WM_DELETE_WINDOW', self.to_quit)
         self.game_frame = Frame(self.game_box)
@@ -89,24 +90,30 @@ class Game:
         round_winnings = 0
         prizes = []
         backgrounds = []
+        stats_prizes = []
         for item in range(0, 3):
             prize_num = random.randint(1,100)
             if 0 < prize_num <= 5:
                 prize = "gold\n(${})".format(5 * stakes_multiplier)
+                prize_list = "gold\n(${})".format(5 * stakes_multiplier)
                 back_color = "#CEA935"
                 round_winnings += 5 * stakes_multiplier
             elif 5 < prize_num <= 25:
                 prize = "silver\n(${})".format(2 * stakes_multiplier)
+                prize_list = "silver\n(${})".format(2 * stakes_multiplier)
                 back_color = "#B7B7B5"
                 round_winnings += 2 * stakes_multiplier
             elif 25 < prize_num <= 65:
                 prize = "copper\n(${})".format(1 * stakes_multiplier)
+                prize_list = "copper\n(${})".format(1 * stakes_multiplier)
                 back_color = "#BC7F61"
                 round_winnings += stakes_multiplier
             else:
                 prize = "lead\n($0)"
+                prize_list = "lead\n($0)"
                 back_color = "#595E71"
             prizes.append(prize)
+            stats_prizes.append(prize_list)
             backgrounds.append(back_color)
         self.prize1_label.config(text=prizes[0], bg=backgrounds[0])
         self.prize2_label.config(text=prizes[1], bg=backgrounds[1])
@@ -119,6 +126,16 @@ class Game:
                                                           round_winnings,
                                                           current_balance)
         self.balance_label.configure(text=balance_statement)
+
+        round_summary = "{} | {} | {} - Cost: ${} | " \
+                        "Payback: ${} | Current Balance: " \
+                        "${}".format(stats_prizes[0], stats_prizes[1],
+                                     stats_prizes[2],
+                                     5 * stakes_multiplier, round_winnings,
+                                     current_balance)
+        self.round_stats_list.append(round_summary)
+        print(self.round_stats_list)
+
 
         if current_balance < 5 * stakes_multiplier:
             self.play_button.config(state=DISABLED)
