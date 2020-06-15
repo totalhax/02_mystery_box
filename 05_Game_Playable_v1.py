@@ -7,7 +7,8 @@ class Start:
         self.start_frame = Frame(padx=10, pady=10)
         self.start_frame.grid()
 
-        self.push_me_button = Button(text="Push Me", command=self.to_game)
+        self.push_me_button = Button(self.start_frame, text="Push Now",
+                                     command=self.to_game)
         self.push_me_button.grid(row=0, pady=10)
 
     def to_game(self):
@@ -58,6 +59,8 @@ class Game:
         self.play_button = Button(self.game_frame, text="Open Boxes",
                                   bg="#FFFF33", font="Arial 15 bold", width=20,
                                   padx=10, pady=10, command=self.reveal_boxes)
+        self.play_button.focus()
+        self.play_button.bind('<Return>', lambda e: self.reveal_boxes())
         self.play_button.grid(row=3)
         start_text = "Game Cost: ${} \n "" \nHow much " \
                      "will you win?".format(stakes * 5)
@@ -116,6 +119,17 @@ class Game:
                                                           round_winnings,
                                                           current_balance)
         self.balance_label.configure(text=balance_statement)
+
+        if current_balance < 5 * stakes_multiplier:
+            self.play_button.config(state=DISABLED)
+            self.game_box.focus()
+            self.play_button.config(text="Game Over")
+
+            balance_statement = "Current Balance: ${}\n" \
+                                "Your balance is too low. You can only quit " \
+                                "or view your stats. Sorry about that.".format(current_balance)
+            self.balance_label.config(fg="#660000", font="Arial 10 bold",
+                                      text=balance_statement)
 
     def to_quit(self):
         root.destroy()
