@@ -294,12 +294,11 @@ class Help:
                                       "The contents of the boxes will be added to your balance. "
                                       "The boxes could contain... \n\n"
                                       "Low: Lead ($0) | Copper ($1) | Silver ($2) | Gold ($10)\n"
-
-
-
-
-
-                                 , font=("Arial", "8"))
+                                      "Medium: Lead ($0) | Copper ($2) | Silver ($4) | Gold ($25)\n"
+                                      "High: Lead ($0) | Copper ($5) | Silver ($10) | Gold ($50)\n\n"
+                                      "If each box contains gold, you earn $30 (low stakes). If "
+                                      "they contain copper, silver and gold, you would receive "
+                                      "$13 ($1 + $2 + $10) and so on.", font=("Arial", "8"))
 
     def close_help(self, partner):
         # Put help button back to normal
