@@ -92,7 +92,6 @@ class GameStats:
                                               anchor="w")
         self.games_played_value_label.grid(row=4, column=1, padx=0)
 
-
     def close_stats(self, partner):
         print("close me")
 
